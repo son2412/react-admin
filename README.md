@@ -10,9 +10,6 @@
 - Authentication
 - **Clean, easy, ready to start new project**
 
-## Pricing
-It's completly **free** (no commercial versions)
-
 ## Quick start
 
 #### 1. Get the latest version
@@ -20,7 +17,7 @@ It's completly **free** (no commercial versions)
 Clone repository
 
 ```shell
-$ git clone https://github.com/delprzemo/react-admin-template.git React-Admin-Template
+$ git clone https://github.com/son2412/React-Admin.git React-Admin
 $ cd React-Admin-Template
 ```
 
