@@ -1,16 +1,25 @@
 import React, { Fragment, Dispatch, useState, useEffect } from 'react';
 import TopCard from '../../common/components/TopCard';
-import { IUser } from '../../store/models/user.interface';
+import { IUser, Gender } from '../../store/models/user.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStateType } from '../../store/models/root.interface';
 import { addAdmin, loadUsers } from '../../store/actions/users.action';
 import { updateCurrentPath } from '../../store/actions/root.actions';
 import Pagination from '../../common/components/Pagination';
 import LoadingBar from '../../common/components/LoadingBar';
+import Button from '@material-ui/core/Button';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { toast } from 'react-toastify';
+import * as userApi from '../../api/userApi';
+import EditButton from '../../assets/editButton.png';
+import moment from 'moment';
+import EditUserModal from './EditUserModel';
 
 const page_size = 10;
 const Users: React.FC = () => {
   const [page_index, setPageIndex] = useState(1);
+  const [editingUser, setEditingUser] = useState(null);
+  const [visible, setVisible] = useState();
   const dispatch: Dispatch<any> = useDispatch();
   dispatch(updateCurrentPath('user', 'list'));
 
@@ -30,6 +39,33 @@ const Users: React.FC = () => {
     setPageIndex(page_index);
   };
 
+  const refreshList = () => {
+    dispatch(loadUsers({ page_index, page_size }));
+  }
+
+  const deleteUser = (id: number) => {
+    if (window.confirm('Do you want delete user ？')) {
+      userApi.deleteUser(id).then((response) => {
+        const { data } = response;
+        if (data.success) {
+          refreshList();
+          // dispatch(loadUsers({ page_index, page_size }));
+          toast.success('削除成功。');
+        } else {
+          toast.error('より多くの失敗');
+        }
+      });
+    }
+  };
+
+  const showEditModal = (user: any) => {
+    setEditingUser(user);
+  };
+
+  const hideEditModal = () => {
+    setEditingUser(null);
+  }
+
   const userElements: JSX.Element[] = users.map((user) => {
     return (
       <tr className={`table-row`} key={`user_${user.id}`}>
@@ -37,10 +73,29 @@ const Users: React.FC = () => {
         <td>{user.first_name}</td>
         <td>{user.last_name}</td>
         <td>{user.email}</td>
+        <td>{user.gender === Gender.MALE ? 'Male' : 'Female'}</td>
+        <td>{user.phone}</td>
+        <td>{user.roles.map((x) => x.name)}</td>
         <td>
           <button className="btn btn-success" onClick={() => setUserAdmin(user)}>
             Set admin
-          </button>{' '}
+          </button>
+        </td>
+        <td>{moment(user.created_at).format('YYYY/MM/DD HH:mm:ss')}</td>
+        <td>
+          <Button onClick={() => showEditModal(user)}>
+            <img
+              src={EditButton}
+              style={{
+                width: 19,
+                height: 18
+              }}
+              alt=""
+            />
+          </Button>
+          <Button onClick={() => deleteUser(user.id)}>
+            <DeleteForeverIcon color="secondary" />
+          </Button>
         </td>
       </tr>
     );
@@ -48,6 +103,13 @@ const Users: React.FC = () => {
 
   return (
     <Fragment>
+      {editingUser && (
+        <EditUserModal
+          user={editingUser}
+          onClose={hideEditModal}
+          onUpdate={refreshList}
+        />
+      )}
       <LoadingBar show={loading} />
       <h1 className="h3 mb-2 text-gray-800">Users</h1>
       <p className="mb-4">Users here</p>
@@ -70,10 +132,17 @@ const Users: React.FC = () => {
                   <thead className="thead-light">
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">First name</th>
-                      <th scope="col">Last name</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
                       <th scope="col">Email</th>
+                      <th scope="col">Gender</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Role</th>
                       <th scope="col">Admin</th>
+                      <th scope="col">Create At</th>
+                      <th scope="col" style={{ paddingLeft: 30 }}>
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>{userElements}</tbody>

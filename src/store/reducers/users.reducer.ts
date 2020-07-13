@@ -3,10 +3,7 @@ import { handleActions } from 'redux-actions';
 import Users from '../types/users';
 
 const initialState: IUserState = {
-  items: [
-    { id: 1, first_name: 'John', last_name: 'Smith', email: 'jsmith@em.pl' },
-    { id: 2, first_name: 'Jannice', last_name: 'Bing', email: 'ohmy@fr.pl' }
-  ],
+  items: [],
   loading: false,
   totalRow: 0
 };
