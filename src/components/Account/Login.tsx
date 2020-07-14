@@ -3,8 +3,10 @@ import { OnChangeModel } from "../../common/types/Form.types";
 import { login } from "../../api/authApi";
 import TextInput from "../../common/components/TextInput";
 import Cookies from 'js-cookie';
+import { useHistory } from "react-router-dom";
 
-const Login: React.FC = (props) => {
+const Login: React.FC = () => {
+  const history = useHistory();
   const [formState, setFormState] = useState({
     email: { error: "", value: "" },
     password: { error: "", value: "" }
@@ -20,6 +22,7 @@ const Login: React.FC = (props) => {
     const response = await login({email: formState.email.value, password: formState.password.value});
     if (response.status === 200 && response.data.token) {
       Cookies.set('token', response.data.token);
+      history.push(`/admin/home`);
     }
   }
 

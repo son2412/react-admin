@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import "./styles/sb-admin-2.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import Login from "./components/Account/Login";
 import Admin from "./components/Admin/Admin";
 import { PrivateRoute } from "./common/components/PrivateRoute";
@@ -19,6 +19,7 @@ const App: React.FC = () => {
             <Admin />
           </PrivateRoute>
           <AccountRoute path="/login"><Login /></AccountRoute>
+          <Redirect to="/admin/home" />
         </Switch>
         <ToastContainer hideProgressBar />
       </Router>
