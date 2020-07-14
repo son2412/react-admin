@@ -6,6 +6,7 @@ export interface IUser {
   gender: number;
   created_at: string;
   phone: string;
+  birth: string;
   roles: IRole[];
 }
 

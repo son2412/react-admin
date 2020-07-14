@@ -14,12 +14,13 @@ import * as userApi from '../../api/userApi';
 import EditButton from '../../assets/editButton.png';
 import moment from 'moment';
 import EditUserModal from './EditUserModel';
+import CreateUserModel from './CreateUserModel';
 
 const page_size = 10;
 const Users: React.FC = () => {
   const [page_index, setPageIndex] = useState(1);
   const [editingUser, setEditingUser] = useState(null);
-  const [visible, setVisible] = useState();
+  const [addUser, setAddUser] = useState(false);
   const dispatch: Dispatch<any> = useDispatch();
   dispatch(updateCurrentPath('user', 'list'));
 
@@ -41,7 +42,7 @@ const Users: React.FC = () => {
 
   const refreshList = () => {
     dispatch(loadUsers({ page_index, page_size }));
-  }
+  };
 
   const deleteUser = (id: number) => {
     if (window.confirm('Do you want delete user ？')) {
@@ -49,10 +50,9 @@ const Users: React.FC = () => {
         const { data } = response;
         if (data.success) {
           refreshList();
-          // dispatch(loadUsers({ page_index, page_size }));
-          toast.success('削除成功。');
+          toast.success('Delete success !');
         } else {
-          toast.error('より多くの失敗');
+          toast.error('Delete fail !');
         }
       });
     }
@@ -64,15 +64,23 @@ const Users: React.FC = () => {
 
   const hideEditModal = () => {
     setEditingUser(null);
-  }
+  };
+
+  const showCreateModal = () => {
+    setAddUser(true);
+  };
+
+  const hideCreateModal = () => {
+    setAddUser(false);
+  };
 
   const userElements: JSX.Element[] = users.map((user) => {
     return (
       <tr className={`table-row`} key={`user_${user.id}`}>
         <th scope="row">{user.id}</th>
-        <td>{user.first_name}</td>
-        <td>{user.last_name}</td>
+        <td>{user.first_name + ' '+ user.last_name}</td>
         <td>{user.email}</td>
+        <td>{user.birth}</td>
         <td>{user.gender === Gender.MALE ? 'Male' : 'Female'}</td>
         <td>{user.phone}</td>
         <td>{user.roles.map((x) => x.name)}</td>
@@ -103,16 +111,11 @@ const Users: React.FC = () => {
 
   return (
     <Fragment>
-      {editingUser && (
-        <EditUserModal
-          user={editingUser}
-          onClose={hideEditModal}
-          onUpdate={refreshList}
-        />
-      )}
+      {editingUser && <EditUserModal user={editingUser} onClose={hideEditModal} onUpdate={refreshList} />}
+      {addUser && <CreateUserModel onClose={hideCreateModal} onUpdate={refreshList} />}
       <LoadingBar show={loading} />
       <h1 className="h3 mb-2 text-gray-800">Users</h1>
-      <p className="mb-4">Users here</p>
+      {/* <p className="mb-4">Users here</p> */}
 
       <div className="row">
         <TopCard title="ADMINS" text={'10'} icon="user-tie" class="primary" />
@@ -123,7 +126,8 @@ const Users: React.FC = () => {
         <div className="col-xl-12 col-lg-12">
           <div className="card shadow mb-4">
             <div className="card-header py-3">
-              <h6 className="m-0 font-weight-bold text-green">User List</h6>
+              {/* <h6 className="m-0 font-weight-bold text-green">User List</h6> */}
+              <button className="btn btn-success" onClick={() => showCreateModal()}>Create User</button>
               <div className="header-buttons"></div>
             </div>
             <div className="card-body">
@@ -132,9 +136,9 @@ const Users: React.FC = () => {
                   <thead className="thead-light">
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">First Name</th>
-                      <th scope="col">Last Name</th>
+                      <th scope="col">FullName</th>
                       <th scope="col">Email</th>
+                      <th scope="col">Birth</th>
                       <th scope="col">Gender</th>
                       <th scope="col">Phone</th>
                       <th scope="col">Role</th>

@@ -1,7 +1,7 @@
 import React from 'react';
 interface radio {
   name: string;
-  defaultValue: string;
+  defaultValue?: string;
   options: any;
   onChange: any;
   disabled: boolean;

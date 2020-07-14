@@ -7,6 +7,8 @@ import Login from "./components/Account/Login";
 import Admin from "./components/Admin/Admin";
 import { PrivateRoute } from "./common/components/PrivateRoute";
 import { AccountRoute } from "./common/components/AccountRoute";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const App: React.FC = () => {
   return (
@@ -18,6 +20,7 @@ const App: React.FC = () => {
           </PrivateRoute>
           <AccountRoute path="/login"><Login /></AccountRoute>
         </Switch>
+        <ToastContainer hideProgressBar />
       </Router>
     </div>
   );
