@@ -4,6 +4,7 @@ import { login } from "../../api/authApi";
 import TextInput from "../../common/components/TextInput";
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -23,6 +24,8 @@ const Login: React.FC = () => {
     if (response.status === 200 && response.data.token) {
       Cookies.set('token', response.data.token);
       history.push(`/admin/home`);
+    } else {
+      toast.error(response.data.message);
     }
   }
 
