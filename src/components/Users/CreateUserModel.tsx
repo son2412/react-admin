@@ -8,6 +8,7 @@ import { Row, Col, FormGroup, Label, Card } from 'reactstrap';
 import { addUser } from '../../api/userApi';
 import { toast } from 'react-toastify';
 import RadioGroup from '../../common/components/RadioGroup';
+import ImageAvatar from './ImageAvatar';
 interface params {
   onClose: any;
   onUpdate: any;
@@ -19,6 +20,7 @@ const sexOptions = [
 function CreateUserModel({ onClose, onUpdate }: params) {
   const [submitting, setSubmitting] = useState(false);
   const [createUser, setCreateUser] = useState({});
+  const [avatar, setAvatar] = useState('');
   const handleSubmit = () => {
     const create = createUser as any;
     if (!create.first_name) {
@@ -72,6 +74,10 @@ function CreateUserModel({ onClose, onUpdate }: params) {
     setCreateUser(edit);
   };
 
+  const handleCreateAvatar = (url: string) => {
+    setAvatar(url);
+  };
+
   return (
     <Dialog fullWidth={true} maxWidth={'lg'} open={true} aria-labelledby="max-width-dialog-title">
       <DialogTitle id="max-width-dialog-title">Create User</DialogTitle>
@@ -79,6 +85,12 @@ function CreateUserModel({ onClose, onUpdate }: params) {
         <Row>
           <Col xs={12}>
             <Card body>
+              <FormGroup row>
+                <Label xs={4}>Avatar</Label>
+                <Col xs={8}>
+                  <ImageAvatar avatar={avatar} setAvatar={handleCreateAvatar} />
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Label xs={4}>FirstName</Label>
                 <Col xs={8}>
