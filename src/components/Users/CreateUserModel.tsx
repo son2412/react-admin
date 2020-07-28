@@ -51,6 +51,7 @@ function CreateUserModel({ onClose, onUpdate }: params) {
       toast.error('Enter birth !');
       return false;
     }
+    Object.assign(createUser, { avatar: avatar });
     addUser(createUser).then((response) => {
       const { data } = response;
       if (data.success) {

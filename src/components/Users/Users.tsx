@@ -12,6 +12,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { toast } from 'react-toastify';
 import * as userApi from '../../api/userApi';
 import EditButton from '../../assets/editButton.png';
+import Nophoto from '../../assets/nophoto.png';
 import moment from 'moment';
 import EditUserModal from './EditUserModel';
 import CreateUserModel from './CreateUserModel';
@@ -78,7 +79,10 @@ const Users: React.FC = () => {
     return (
       <tr className={`table-row`} key={`user_${user.id}`}>
         <th scope="row">{user.id}</th>
-        <td>{user.first_name + ' '+ user.last_name}</td>
+        <td>{user.first_name + ' ' + user.last_name}</td>
+        <td>
+          <img style={{ width: 30, height: 30, borderRadius: '50%' }} src={user.image ? user.image.url : Nophoto} alt="" />
+        </td>
         <td>{user.email}</td>
         <td>{user.birth}</td>
         <td>{user.gender === Gender.MALE ? 'Male' : 'Female'}</td>
@@ -127,7 +131,9 @@ const Users: React.FC = () => {
           <div className="card shadow mb-4">
             <div className="card-header py-3">
               {/* <h6 className="m-0 font-weight-bold text-green">User List</h6> */}
-              <button className="btn btn-success" onClick={() => showCreateModal()}>Create User</button>
+              <button className="btn btn-success" onClick={() => showCreateModal()}>
+                Create User
+              </button>
               <div className="header-buttons"></div>
             </div>
             <div className="card-body">
@@ -137,6 +143,7 @@ const Users: React.FC = () => {
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">FullName</th>
+                      <th scope="col">Avatar</th>
                       <th scope="col">Email</th>
                       <th scope="col">Birth</th>
                       <th scope="col">Gender</th>

@@ -8,6 +8,7 @@ import { Row, Col, FormGroup, Label, Card } from 'reactstrap';
 import { updateUser } from '../../api/userApi';
 import { toast } from 'react-toastify';
 import RadioGroup from '../../common/components/RadioGroup';
+import ImageAvatar from './ImageAvatar';
 interface params {
   user: any;
   onClose: any;
@@ -20,7 +21,9 @@ const sexOptions = [
 function EditUserModal({ user, onClose, onUpdate }: params) {
   const [submitting, setSubmitting] = useState(false);
   const [editUser, setEditUser] = useState({});
+  const [avatar, setAvatar] = useState(user.image ? user.image.url : '');
   const handleSubmit = () => {
+    Object.assign(editUser, { avatar: avatar });
     updateUser(user.id, editUser).then((res) => {
       const { data } = res;
       if (data.success) {
@@ -40,6 +43,10 @@ function EditUserModal({ user, onClose, onUpdate }: params) {
     setEditUser(edit);
   };
 
+  const handleCreateAvatar = (url: string) => {
+    setAvatar(url);
+  };
+
   return (
     <Dialog fullWidth={true} maxWidth={'lg'} open={true} aria-labelledby="max-width-dialog-title">
       <DialogTitle id="max-width-dialog-title">Update User</DialogTitle>
@@ -47,6 +54,12 @@ function EditUserModal({ user, onClose, onUpdate }: params) {
         <Row>
           <Col xs={12}>
             <Card body>
+              <FormGroup row>
+                <Label xs={4}>Avatar</Label>
+                <Col xs={8}>
+                  <ImageAvatar avatar={avatar} setAvatar={handleCreateAvatar} />
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Label xs={4}>FirstName</Label>
                 <Col xs={8}>

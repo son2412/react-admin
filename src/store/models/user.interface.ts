@@ -8,6 +8,7 @@ export interface IUser {
   phone: string;
   birth: string;
   roles: IRole[];
+  image: IAvatar;
 }
 
 export enum Gender {
@@ -17,4 +18,11 @@ export enum Gender {
 
 export interface IRole {
   name: string;
+}
+
+export interface IAvatar {
+  id: string;
+  imageable_id: number;
+  imageable_type: number;
+  url: string;
 }

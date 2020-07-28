@@ -76,7 +76,7 @@ function ImageAvatar({ avatar, setAvatar }) {
   return (
     <div className={`clearfix`}>
       <div style={{ position: 'relative', float: 'left', width: 160, height: 160 }}>
-        {avatar && <img src={avatar} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />}
+        {avatar && <img src={avatar} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10 }} alt="" />}
         {avatar && <DeleteImageButton onClick={() => handleDeleteAvatar()} />}
         {!avatar && <AddImageButton size={160} setAvatar={setAvatar} />}
       </div>
