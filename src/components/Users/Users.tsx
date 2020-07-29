@@ -137,7 +137,7 @@ const Users: React.FC = () => {
               <div className="header-buttons"></div>
             </div>
             <div className="card-body">
-              <div className="table-responsive portlet">
+              <div className="table-responsive portlet" style={{ maxHeight: 700 }}>
                 <table className="table">
                   <thead className="thead-light">
                     <tr>
