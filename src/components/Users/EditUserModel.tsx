@@ -30,11 +30,11 @@ function EditUserModal({ user, onClose, onUpdate }: params) {
         onClose();
         onUpdate();
         toast.success('Update success !');
+        setSubmitting(true);
       } else {
-        toast.error('Update fail !');
+        toast.error(data.message);
       }
     });
-    setSubmitting(true);
   };
 
   const onChange = (e: any) => {

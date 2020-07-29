@@ -58,11 +58,11 @@ function CreateUserModel({ onClose, onUpdate }: params) {
         onClose();
         onUpdate();
         toast.success('Create success !');
+        setSubmitting(true);
       } else {
-        toast.error('create fail !');
+        toast.error(data.message);
       }
     });
-    setSubmitting(true);
   };
 
   const onChange = (e: any) => {
