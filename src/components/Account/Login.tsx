@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     if(isFormInvalid()) { return; }
     const response = await login({email: formState.email.value, password: formState.password.value});
-    if (response.status === 200 && response.data.token) {
+    if (response.status === 200 && response.data.data.token) {
       Cookies.set('token', response.data.token);
       history.push(`/admin/home`);
     } else {
