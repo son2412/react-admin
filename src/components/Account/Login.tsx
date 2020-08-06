@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     if(isFormInvalid()) { return; }
     const response = await login({email: formState.email.value, password: formState.password.value});
     if (response.status === 200 && response.data.data.token) {
-      Cookies.set('token', response.data.token);
+      Cookies.set('token', response.data.data.token);
       history.push(`/admin/home`);
     } else {
       toast.error(response.data.message);
