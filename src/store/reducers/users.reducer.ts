@@ -1,5 +1,4 @@
-import { IUserState } from '../models/root.interface';
-import { handleActions } from 'redux-actions';
+import { IActionBase, IUserState } from '../models/root.interface';
 import Users from '../types/users';
 
 const initialState: IUserState = {
@@ -8,22 +7,29 @@ const initialState: IUserState = {
   totalRow: 0
 };
 
-const actions = {
-  [Users.LOAD_USERS]: (state: any) => ({
-    ...state,
-    loading: true
-  }),
-  [Users.LOAD_USERS_SUCCESS]: (state: any, action: any) => ({
-    ...state,
-    items: action.payload.items,
-    totalRow: action.payload.totalRow,
-    loading: false
-  }),
-  [Users.LOAD_USERS_FAIL]: (state: any) => ({
-    ...state,
-    items: [],
-    loading: false
-  })
+function userReducer(state: IUserState = initialState, action: IActionBase): IUserState {
+  switch (action.type) {
+    case Users.LOAD_USERS:
+      return {
+        loading: true,
+        items: state.items,
+        totalRow: 0
+      };
+    case Users.LOAD_USERS_SUCCESS:
+      return {
+        loading: false,
+        items: [...state.items, ...action.payload.items],
+        totalRow: action.payload.totalRow,
+      };
+    case Users.LOAD_USERS_FAIL:
+      return {
+        loading: false,
+        items: [],
+        totalRow: 0
+      };
+    default:
+      return state;
+  }
 };
 
-export default handleActions(actions, initialState);
+export default userReducer;

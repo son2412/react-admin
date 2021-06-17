@@ -23,7 +23,11 @@ const Users: React.FC = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [addUser, setAddUser] = useState(false);
   const dispatch: Dispatch<any> = useDispatch();
-  dispatch(updateCurrentPath('user', 'list'));
+  // dispatch(updateCurrentPath('user', 'list'));
+
+  useEffect(() => {
+    dispatch(updateCurrentPath('users', 'list'));
+  }, [dispatch]);
 
   const users: IUser[] = useSelector((state: IStateType) => state.users.items);
   const loading = useSelector((state: IStateType) => state.users.loading);
@@ -75,9 +79,9 @@ const Users: React.FC = () => {
     setAddUser(false);
   };
 
-  const userElements: JSX.Element[] = users.map((user) => {
+  const userElements: JSX.Element[] = users.map((user, index) => {
     return (
-      <tr className={`table-row`} key={`user_${user.id}`}>
+      <tr className={`table-row`} key={index}>
         <th scope="row">{user.id}</th>
         <td>{user.first_name + ' ' + user.last_name}</td>
         <td>
