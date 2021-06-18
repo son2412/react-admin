@@ -5,20 +5,26 @@ import configs from '../config/config';
 
 const axiosInstance = Axios.create({
   timeout: 3 * 60 * 1000,
-  baseURL: configs.apiDomain,
+  baseURL: configs.apiDomain
 });
-axiosInstance.interceptors.request.use((config) => {
-  config.headers['Authorization'] = `Bearer ${Cookies.get('token')}`;
-  return config;
-}, (error) => Promise.reject(error));
-axiosInstance.interceptors.response.use((response) => {
-  // invalid token
-  if (typeof (response.data) !== 'object') {
-    Cookies.remove('token');
-    history.push('/');
-  }
-  return response;
-}, (error) => Promise.reject(error));
+axiosInstance.interceptors.request.use(
+  (config) => {
+    config.headers.Authorization = `Bearer ${Cookies.get('token')}`;
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+axiosInstance.interceptors.response.use(
+  (response) => {
+    // invalid token
+    if (typeof response.data !== 'object') {
+      Cookies.remove('token');
+      history.push('/');
+    }
+    return response;
+  },
+  (error) => Promise.reject(error)
+);
 
 export const sendGet = (url: string, params: any) => axiosInstance.get(url, { params });
 export const sendPost = (url: string, params: any) => axiosInstance.post(url, params);

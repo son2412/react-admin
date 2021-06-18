@@ -33,7 +33,9 @@ function AddImageButton({ size, setAvatar }) {
   };
 
   const handleProgress = (progress) => setProgress(progress);
-  const handleUploadError = (error) => setIsUploading(false);
+  const handleUploadError = (error) => {
+    if (error) setIsUploading(false);
+  };
   const handleUploadSuccess = (filename) => {
     setProgress(100);
     setIsUploading(false);
@@ -74,7 +76,7 @@ function ImageAvatar({ avatar, setAvatar }) {
   };
 
   return (
-    <div className={`clearfix`}>
+    <div className={'clearfix'}>
       <div style={{ position: 'relative', float: 'left', width: 160, height: 160 }}>
         {avatar && <img src={avatar} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10 }} alt="" />}
         {avatar && <DeleteImageButton onClick={() => handleDeleteAvatar()} />}

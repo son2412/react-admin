@@ -3,7 +3,7 @@ import Users from '../types/users';
 import { getUsers } from '../../api/userApi';
 import { loadUsersSuccess, loadUsersFail } from '../actions/users.action';
 
-function* handleLoadUsers(action: any) {
+function * handleLoadUsers(action: any) {
   try {
     const response = yield call(getUsers, action.payload);
     const { data } = response;
@@ -17,6 +17,6 @@ function* handleLoadUsers(action: any) {
   }
 }
 
-export default function* usersSaga() {
+export default function * usersSaga() {
   yield takeLatest(Users.LOAD_USERS, handleLoadUsers);
 }

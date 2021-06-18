@@ -1,16 +1,16 @@
-import React, { useState, FormEvent } from "react";
-import { OnChangeModel } from "../../common/types/Form.types";
-import { login } from "../../api/authApi";
-import TextInput from "../../common/components/TextInput";
+import React, { useState, FormEvent } from 'react';
+import { OnChangeModel } from '../../common/types/Form.types';
+import { login } from '../../api/authApi';
+import TextInput from '../../common/components/TextInput';
 import Cookies from 'js-cookie';
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login: React.FC = () => {
   const history = useHistory();
   const [formState, setFormState] = useState({
-    email: { error: "", value: "" },
-    password: { error: "", value: "" }
+    email: { error: '', value: '' },
+    password: { error: '', value: '' }
   });
 
   function hasFormValueChanged(model: OnChangeModel): void {
@@ -19,24 +19,24 @@ const Login: React.FC = () => {
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if(isFormInvalid()) { return; }
-    const response = await login({email: formState.email.value, password: formState.password.value});
+    if (isFormInvalid()) { return; }
+    const response = await login({ email: formState.email.value, password: formState.password.value });
     if (response.status === 200 && response.data.data.token) {
       Cookies.set('token', response.data.data.token);
-      history.push(`/admin/home`);
+      history.push('/admin/home');
     } else {
       toast.error(response.data.message);
     }
   }
 
   function isFormInvalid() {
-    return (formState.email.error || formState.password.error
-      || !formState.email.value || !formState.password.value);
+    return (formState.email.error || formState.password.error ||
+      !formState.email.value || !formState.password.value);
   }
 
   function getDisabledClass(): string {
-    let isError: boolean = isFormInvalid() as boolean;
-    return isError ? "disabled" : "";
+    const isError: boolean = isFormInvalid() as boolean;
+    return isError ? 'disabled' : '';
   }
 
   return (

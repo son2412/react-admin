@@ -19,7 +19,7 @@ function userReducer(state: IUserState = initialState, action: IActionBase): IUs
       return {
         loading: false,
         items: [...state.items, ...action.payload.items],
-        totalRow: action.payload.totalRow,
+        totalRow: action.payload.totalRow
       };
     case Users.LOAD_USERS_FAIL:
       return {
@@ -30,6 +30,6 @@ function userReducer(state: IUserState = initialState, action: IActionBase): IUs
     default:
       return state;
   }
-};
+}
 
 export default userReducer;

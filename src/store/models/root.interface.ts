@@ -1,8 +1,8 @@
-import { IProduct, ProductModificationStatus } from "./product.interface";
-import { INotification } from "./notification.interface";
-import { IUser } from "./user.interface";
-import { IOrder } from "./order.interface";
-import { IAccount } from "./account.interface";
+import { IProduct, ProductModificationStatus } from './product.interface';
+import { INotification } from './notification.interface';
+import { IUser } from './user.interface';
+import { IOrder } from './order.interface';
+import { IAccount } from './account.interface';
 
 export interface IRootPageStateType {
   area: string;

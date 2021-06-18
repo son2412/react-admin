@@ -15,7 +15,7 @@ function notificationReducer(state: INotificationState = initialState, action: I
       if (maxId === -Infinity) {
         maxId = 0;
       }
-      let newItem = {
+      const newItem = {
         id: maxId + 1,
         date: new Date(),
         title: action.title,

@@ -81,7 +81,7 @@ const Users: React.FC = () => {
 
   const userElements: JSX.Element[] = users.map((user, index) => {
     return (
-      <tr className={`table-row`} key={index}>
+      <tr className={'table-row'} key={index}>
         <th scope="row">{user.id}</th>
         <td>{user.first_name + ' ' + user.last_name}</td>
         <td>

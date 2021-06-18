@@ -1,3 +1,3 @@
 export interface IAccount {
-    email: string;
+  email: string;
 }

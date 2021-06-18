@@ -8,7 +8,7 @@ const OrderList: React.FC = () => {
 
   const orderList: JSX.Element[] = orders.map((order) => {
     return (
-      <tr className={`table-row`} key={`order_${order.id}`}>
+      <tr className={'table-row'} key={`order_${order.id}`}>
         <th scope="row">{order.id}</th>
         <td>{order.name}</td>
         <td>{order.product.name}</td>
