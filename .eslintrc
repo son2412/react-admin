@@ -6,7 +6,7 @@
     "key-spacing": 0,
     "max-len": [2, 150, 2],
     "object-curly-spacing": [2, "always"],
-    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+    // "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "no-unused-expressions": 0,
     "space-after-function-name": 0,
     "no-useless-call": 0,
@@ -16,6 +16,7 @@
     "new-cap": 0,
     "prefer-const": 1,
     "no-use-before-define": ["off", { "functions": true, "classes": true, "variables": true }],
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-unused-vars": "off"
   }
 }
