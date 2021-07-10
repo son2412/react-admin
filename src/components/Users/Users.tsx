@@ -83,15 +83,16 @@ const Users: React.FC = () => {
     return (
       <tr className={'table-row'} key={index}>
         <th scope="row">{user.id}</th>
-        <td>{user.first_name + ' ' + user.last_name}</td>
+        <td>{user.first_name + ' '}{user.last_name ? user.last_name : ''}</td>
         <td>
-          <img style={{ width: 30, height: 30, borderRadius: '50%' }} src={user.image ? user.image.url : Nophoto} alt="" />
+          <img style={{ width: 30, height: 30, borderRadius: '50%' }} src={user.avatar ? user.avatar : Nophoto} alt="" />
         </td>
         <td>{user.email}</td>
-        <td>{user.birth}</td>
+        <td>{user.birthday}</td>
         <td>{user.gender === Gender.MALE ? 'Male' : 'Female'}</td>
         <td>{user.phone}</td>
         <td>{user.roles.map((x) => x.name)}</td>
+        <td>{user.login_type === 1 ? 'Facebook' : 'Default'}</td>
         <td>
           <button className="btn btn-success" onClick={() => setUserAdmin(user)}>
             Set admin
@@ -153,6 +154,7 @@ const Users: React.FC = () => {
                       <th scope="col">Gender</th>
                       <th scope="col">Phone</th>
                       <th scope="col">Role</th>
+                      <th scope="col">Login</th>
                       <th scope="col">Admin</th>
                       <th scope="col">Create At</th>
                       <th scope="col" style={{ paddingLeft: 30 }}>

@@ -1,10 +1,11 @@
 import React, { useState, FormEvent } from 'react';
 import { OnChangeModel } from '../../common/types/Form.types';
-import { login } from '../../api/authApi';
+import { login, loginFB } from '../../api/authApi';
 import TextInput from '../../common/components/TextInput';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -19,7 +20,9 @@ const Login: React.FC = () => {
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (isFormInvalid()) { return; }
+    if (isFormInvalid()) {
+      return;
+    }
     const response = await login({ email: formState.email.value, password: formState.password.value });
     if (response.status === 200 && response.data.data.token) {
       Cookies.set('token', response.data.data.token);
@@ -30,8 +33,7 @@ const Login: React.FC = () => {
   }
 
   function isFormInvalid() {
-    return (formState.email.error || formState.password.error ||
-      !formState.email.value || !formState.password.value);
+    return formState.email.error || formState.password.error || !formState.email.value || !formState.password.value;
   }
 
   function getDisabledClass(): string {
@@ -39,8 +41,13 @@ const Login: React.FC = () => {
     return isError ? 'disabled' : '';
   }
 
-  return (
+  const responseFacebook = async (data) => {
+    const { id, accessToken } = data;
+    const response = await loginFB({ id: id, token: accessToken });
+    console.log(response);
+  };
 
+  return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-xl-10 col-lg-12 col-md-9">
@@ -55,18 +62,20 @@ const Login: React.FC = () => {
                     </div>
                     <form className="user" onSubmit={submit}>
                       <div className="form-group">
-
-                        <TextInput id="input_email"
+                        <TextInput
+                          id="input_email"
                           field="email"
                           value={formState.email.value}
                           onChange={hasFormValueChanged}
                           required={true}
                           maxLength={100}
                           label="Email"
-                          placeholder="Email" />
+                          placeholder="Email"
+                        />
                       </div>
                       <div className="form-group">
-                        <TextInput id="input_password"
+                        <TextInput
+                          id="input_password"
                           field="password"
                           value={formState.password.value}
                           onChange={hasFormValueChanged}
@@ -74,20 +83,30 @@ const Login: React.FC = () => {
                           maxLength={100}
                           type="password"
                           label="Password"
-                          placeholder="Password" />
+                          placeholder="Password"
+                        />
                       </div>
                       <div className="form-group">
                         <div className="custom-control custom-checkbox small">
                           <input type="checkbox" className="custom-control-input" id="customCheck" />
-                          <label className="custom-control-label"
-                            htmlFor="customCheck">Remember Me</label>
+                          <label className="custom-control-label" htmlFor="customCheck">
+                            Remember Me
+                          </label>
                         </div>
                       </div>
-                      <button
-                        className={`btn btn-primary btn-user btn-block ${getDisabledClass()}`}
-                        type="submit">
+                      <button className={`btn btn-primary btn-user btn-block ${getDisabledClass()}`} type="submit">
                         Login
                       </button>
+                      <div className="m-2">
+                        <FacebookLogin
+                          appId={'187531485807567'}
+                          autoLoad={true}
+                          fields="name,email,picture"
+                          // onClick={componentClicked}
+                          callback={responseFacebook}
+                          cssClass={'btn btn-primary btn-user btn-block'}
+                        />
+                      </div>
                     </form>
                   </div>
                 </div>

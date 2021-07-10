@@ -6,9 +6,11 @@ export interface IUser {
   gender: number;
   created_at: string;
   phone: string;
-  birth: string;
+  birthday: string;
   roles: IRole[];
-  image: IAvatar;
+  avatar: string;
+  login_type: number;
+  // image: IAvatar;
 }
 
 export enum Gender {
