@@ -1,11 +1,12 @@
 import React, { useState, FormEvent } from 'react';
 import { OnChangeModel } from '../../common/types/Form.types';
-import { login, loginFB } from '../../api/authApi';
+import { login, loginFB, loginGoogle } from '../../api/authApi';
 import TextInput from '../../common/components/TextInput';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -44,6 +45,16 @@ const Login: React.FC = () => {
   const responseFacebook = async (data) => {
     const { id, accessToken } = data;
     const response = await loginFB({ id: id, token: accessToken });
+    console.log(response);
+  };
+
+  const responseSuccessGoogle = async (data) => {
+    const { tokenId } = data;
+    const response = await loginGoogle({ token: tokenId });
+    console.log(response);
+  };
+
+  const responseErrorGoogle = (response) => {
     console.log(response);
   };
 
@@ -105,6 +116,21 @@ const Login: React.FC = () => {
                           // onClick={componentClicked}
                           callback={responseFacebook}
                           cssClass={'btn btn-primary btn-user btn-block'}
+                        />
+                      </div>
+                      <div className="m-2">
+                        <GoogleLogin
+                          clientId="535909429783-121japb6b16mm3hagjefie7j61umoeb2.apps.googleusercontent.com"
+                          render={(renderProps) => (
+                            <button className="btn btn-primary btn-user btn-block" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                              Login with Google
+                            </button>
+                          )}
+                          // buttonText="Login with Google"
+                          onSuccess={responseSuccessGoogle}
+                          onFailure={responseErrorGoogle}
+                          cookiePolicy={'single_host_origin'}
+                          // className="btn btn-primary btn-user btn-block"
                         />
                       </div>
                     </form>
