@@ -49,8 +49,9 @@ const Login: React.FC = () => {
   };
 
   const responseSuccessGoogle = async (data) => {
-    const { tokenId } = data;
-    const response = await loginGoogle({ token: tokenId });
+    console.log(data)
+    const { tokenId, accessToken } = data;
+    const response = await loginGoogle({ token: accessToken });
     console.log(response);
   };
 
